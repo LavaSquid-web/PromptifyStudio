@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptify Studio | AI Social Media Generator</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .glow-accent {
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center font-bold text-white shadow-lg">P</div>
+            <span class="text-xl font-bold tracking-tight text-white">Promptify<span class="text-orange-500">Studio</span></span>
+        </div>
+        <div class="flex items-center space-x-4 text-sm text-slate-400">
+            <span>AI Content Engine v1.0</span>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow">
+        
+        <!-- Left Panel: Controls & Input -->
+        <div class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col space-y-6">
+            <div>
+                <h2 class="text-lg font-semibold text-white mb-1">Content Parameters</h2>
+                <p class="text-xs text-slate-400">Configure your target output for maximum engagement.</p>
+            </div>
+
+            <!-- Platform Selector -->
+            <div>
+                <label class="block text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Platform</label>
+                <select id="platform-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-orange-500 transition">
+                    <option value="tiktok">TikTok / Reels / Shorts (Script & Hook)</option>
+                    <option value="caption">Instagram / FB Caption & Hooks</option>
+                    <option value="thread">X (Twitter) Thread / Announcement</option>
+                </select>
+            </div>
+
+            <!-- Tone / Vibe Selector -->
+            <div>
+                <label class="block text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Tone & Style</label>
+                <select id="tone-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-orange-500 transition">
+                    <option value="hustle">Motivational & Hustle (High Energy)</option>
+                    <option value="educational">Educational & Tech Breakdown</option>
+                    <option value="storytelling">Hook & Storytelling</option>
+                    <option value="punchy">Punchy & Direct</option>
+                </select>
+            </div>
+
+            <!-- Topic Input -->
+            <div class="flex-grow flex flex-col">
+                <label class="block text-xs font-medium uppercase tracking-wider text-slate-400 mb-2">Topic / Core Idea</label>
+                <textarea id="topic-input" rows="4" placeholder="e.g., Building my own tech empire at 25, coding web apps from scratch..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-slate-200 focus:outline-none focus:border-orange-500 transition resize-none flex-grow"></textarea>
+            </div>
+
+            <!-- Generate Button -->
+            <button onclick="generateContent()" class="w-full bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span>Generate Content Matrix</span>
+            </button>
+        </div>
+
+        <!-- Right Panel: Output Display -->
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
+                    <h2 class="text-lg font-semibold text-white">Generated Output Suite</h2>
+                    <button onclick="copyAllOutput()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">Copy All</button>
+                </div>
+
+                <!-- Results Container -->
+                <div id="output-container" class="space-y-6">
+                    <div class="flex flex-col items-center justify-center py-20 text-center text-slate-500">
+                        <svg class="w-12 h-12 mb-3 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        <p class="text-sm">Enter your topic on the left and hit <span class="text-orange-400 font-medium">Generate Content Matrix</span> to begin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right pt-4 text-xs text-slate-500 border-t border-slate-800/60 mt-6">
+                Promptify Studio • Built for High-Growth Creators
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-xs text-slate-600 border-t border-slate-900">
+        Engineered for standalone scalability and high conversions.
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function generateContent() {
+            const topic = document.getElementById('topic-input').value.trim();
+            const platform = document.getElementById('platform-select').value;
+            const tone = document.getElementById('tone-select').value;
+            const container = document.getElementById('output-container');
+
+            if (!topic) {
+                alert('Please enter a topic or core idea first.');
+                return;
+            }
+
+            // Simulate AI Generation logic tailored to selected format
+            let hook = `🔥 Stop scrolling if you want to understand how ${topic} actually changes everything.`;
+            let body = `Most people overcomplicate ${topic}. Here is the exact blueprint to master it fast: First, focus on fundamentals. Second, cut out the noise. Third, execute daily without excuses.`;
+            let cta = `Drop a comment below if you're building your own path, and follow for more!`;
+            let hashtags = `#TechEmpire #IndieHacker #CodingLife #BuildInPublic #FutureMillionaire #${topic.replace(/\s+/g, '')}`;
+
+            if (tone === 'hustle') {
+                hook = `⚠️ The truth about ${topic} that nobody is talking about...`;
+                body = `While everyone else is waiting for permission, you need to build. When you master ${topic}, you stop playing small and start creating real leverage.`;
+            } else if (tone === 'educational') {
+                hook = `💡 Quick technical breakdown of ${topic}:`;
+                body = `Here is how ${topic} works under the hood. Step 1: Initialize the core architecture. Step 2: Optimize execution. Step 3: Scale without friction.`;
+            }
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <!-- Hook Card -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 relative group">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-orange-400 uppercase tracking-wider">⚡ 3-Second Viral Hook</span>
+                            <button onclick="copyText(this, '${escapeQuotes(hook)}')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-800">Copy</button>
+                        </div>
+                        <p class="text-sm text-slate-200 font-medium">${hook}</p>
+                    </div>
+
+                    <!-- Main Script/Body Card -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 relative group">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">📝 Core Script / Body</span>
+                            <button onclick="copyText(this, '${escapeQuotes(body)}')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-800">Copy</button>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">${body}</p>
+                    </div>
+
+                    <!-- Call To Action -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 relative group">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">🎯 Call to Action (CTA)</span>
+                            <button onclick="copyText(this, '${escapeQuotes(cta)}')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-800">Copy</button>
+                        </div>
+                        <p class="text-sm text-slate-300">${cta}</p>
+                    </div>
+
+                    <!-- Hashtags -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 relative group">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider"># Optimized Hashtags</span>
+                            <button onclick="copyText(this, '${escapeQuotes(hashtags)}')" class="text-xs bg-slate-900 hover:bg-slate-800 text-slate-300 px-2.5 py-1 rounded border border-slate-800">Copy</button>
+                        </div>
+                        <p class="text-sm text-blue-400 font-mono">${hashtags}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.classList.add('bg-orange-600', 'text-white', 'border-orange-500');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-orange-600', 'text-white', 'border-orange-500');
+                }, 2000);
+            });
+        }
+
+        function copyAllOutput() {
+            const cards = document.querySelectorAll('#output-container p');
+            if (cards.length === 0) return;
+            let fullText = Array.from(cards).map(p => p.innerText).join('\n\n');
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('All generated content copied to clipboard!');
+            });
+        }
+
+        function escapeQuotes(str) {
+            return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
